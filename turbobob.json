@@ -15,7 +15,7 @@
 			},
 			"dev_http_ingress": "80",
 			"dev_shell_commands": [
-				{ "command": "rel/shorturl_linux-amd64 serve", "important": true }
+				{ "command": "rel/shorturl_linux-amd64 server", "important": true }
 			]
 		}
 	],
