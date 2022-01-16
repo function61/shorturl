@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"log"
 	"net/http"
 	"os"
 	"strings"
@@ -36,15 +35,14 @@ func main() {
 			logger := logex.StandardLogger()
 
 			osutil.ExitIfError(runServer(
-				osutil.CancelOnInterruptOrTerminate(logger),
-				logger))
+				osutil.CancelOnInterruptOrTerminate(logger)))
 		},
 	})
 
 	osutil.ExitIfError(app.Execute())
 }
 
-func runServer(ctx context.Context, logger *log.Logger) error {
+func runServer(ctx context.Context) error {
 	srv := &http.Server{
 		Addr:    ":80",
 		Handler: newServerHandler(),
