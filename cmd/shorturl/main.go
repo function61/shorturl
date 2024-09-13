@@ -46,9 +46,11 @@ func runServer(ctx context.Context) error {
 	srv := &http.Server{
 		Addr:    ":80",
 		Handler: newServerHandler(),
+
+		ReadHeaderTimeout: httputils.DefaultReadHeaderTimeout,
 	}
 
-	return httputils.CancelableServer(ctx, srv, func() error { return srv.ListenAndServe() })
+	return httputils.CancelableServer(ctx, srv, srv.ListenAndServe)
 }
 
 func newServerHandlerWithDb(db map[string]string) http.Handler {

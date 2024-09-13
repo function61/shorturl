@@ -23,14 +23,14 @@ func TestUrlShortener(t *testing.T) {
 	})
 
 	_, err := ezhttp.Get(context.Background(), srv.URL+"/", noFollowRedirects)
-	assert.EqualString(t, err.Error(), "404 Not Found; 404 page not found\n")
+	assert.Equal(t, err.Error(), "404 Not Found; 404 page not found\n")
 
 	_, err = ezhttp.Get(context.Background(), srv.URL+"/go/link-not-found", noFollowRedirects)
-	assert.EqualString(t, err.Error(), "404 Not Found; 404 page not found\n")
+	assert.Equal(t, err.Error(), "404 Not Found; 404 page not found\n")
 
 	resp, err := ezhttp.Get(context.Background(), srv.URL+"/go/self-test", noFollowRedirects, ezhttp.TolerateNon2xxResponse)
 	assert.Ok(t, err)
 
-	assert.Assert(t, resp.StatusCode == http.StatusFound)
-	assert.EqualString(t, resp.Header.Get("Location"), "https://example.net/redirect-target")
+	assert.Equal(t, resp.StatusCode, http.StatusFound)
+	assert.Equal(t, resp.Header.Get("Location"), "https://example.net/redirect-target")
 }

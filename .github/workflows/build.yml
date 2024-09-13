@@ -6,13 +6,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-
-    - name: Download Turbo Bob
-      run: curl --fail --location --output bob https://function61.com/go/turbobob-latest-stable-linux-amd64 && chmod +x bob
+    - uses: actions/checkout@v4
 
     - name: Build
-      run: ./bob build in-ci-autodetect-settings
+      run: |
+        set -eu
+        curl --fail --location --no-progress-meter --output bob https://function61.com/go/turbobob-latest-stable-linux-amd64 && chmod +x bob
+        ./bob build in-ci-autodetect-settings
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         EVENTHORIZON: ${{ secrets.EVENTHORIZON }}

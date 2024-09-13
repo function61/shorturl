@@ -6,12 +6,12 @@
 	"builders": [
 		{
 			"name": "default",
-			"uses": "docker://fn61/buildkit-golang:20220115_1318_71191646",
+			"uses": "docker://fn61/buildkit-golang:20240913_1923_331687a0",
 			"mount_source": "",
 			"mount_destination": "/workspace",
 			"workdir": "/workspace",
 			"commands": {
-				"build": ["build-go-project.sh", "--directory=cmd/shorturl/", "--binary-basename=shorturl"],
+				"build": ["build-go-project.sh", "--directory=cmd/shorturl/", "--binary-basename=shorturl", "--aws-lambda-zip"],
 				"dev": ["bash"]
 			},
 			"dev_http_ingress": "80",
