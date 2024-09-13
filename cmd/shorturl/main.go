@@ -4,7 +4,6 @@ import (
 	"context"
 	"net/http"
 	"os"
-	"strings"
 
 	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/function61/gokit/app/aws/lambdautils"
@@ -56,16 +55,15 @@ func runServer(ctx context.Context) error {
 func newServerHandlerWithDb(db map[string]string) http.Handler {
 	mux := http.NewServeMux()
 
-	mux.HandleFunc("/go/", func(w http.ResponseWriter, r *http.Request) {
-		id := strings.TrimPrefix(r.URL.Path, "/go/") // "/go/foobar" => "foobar"
+	mux.HandleFunc("/go/{linkid...}", func(w http.ResponseWriter, r *http.Request) {
+		id := r.PathValue("linkid") // "/go/foobar" => "foobar"
 
 		target, found := db[id]
 		if !found {
 			http.NotFound(w, r)
-			return
+		} else {
+			http.Redirect(w, r, target, http.StatusFound)
 		}
-
-		http.Redirect(w, r, target, http.StatusFound)
 	})
 
 	return mux
